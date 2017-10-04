@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "airbnb",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "globals": {
+    "document": true,
+    "describe": false,
+    "it": false
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "bracketSpacing": false
+      }
+    ]
+  }
+}
