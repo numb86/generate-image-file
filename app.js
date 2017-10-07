@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Canvas = require('canvas');
 const program = require('commander');
+const bytes = require('bytes');
 
 const DEFAULT_WIDTH = 200;
 const DEFAULT_HEIGHT = 200;
@@ -49,6 +50,7 @@ function generateImage(width, height) {
     fs.writeFile(`images/${new Date().toISOString()}.png`, buf, fsErr => {
       if (fsErr) throw new Error(fsErr);
       console.log(`Generate ${width} * ${height} image.`);
+      console.log(`File size is ${bytes(buf.length, {unitSeparator: ' '})}.`);
     });
   });
 }
