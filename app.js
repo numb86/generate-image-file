@@ -55,6 +55,7 @@ function generateImage(width, height) {
   });
 }
 
+console.log('processing...');
 if (program.size) {
   generateImage(...getSpecifySize(program.size));
 } else {
