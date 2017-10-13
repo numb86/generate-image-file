@@ -57,13 +57,28 @@ function generateSpecifiedSizeBuffer(width, height, callback) {
   });
 }
 
-function generateSpecifiedByteBuffer(specifiedByte, callback) {
+function validateByteInputValue(specifiedByte) {
+  if (!isFinite(specifiedByte)) {
+    failProcess('Invalid input value. Format is *b or *kb or *mb');
+  }
+  if (specifiedByte > MAX_LIMIT_BYTE_SIZE) {
+    failProcess('The input value is too large. The maximum value is 50 MB.');
+  }
+}
+
+function generateSpecifiedByteBuffer(specifiedByte, argBuf, callback) {
   const canvas = new Canvas(1, 1);
   canvas.toBuffer((err, buf) => {
     if (err) throw new Error(err);
-    const array = buf.toJSON().data;
+    const baseBuf = argBuf || buf;
+    const array = baseBuf.toJSON().data;
     const diff = specifiedByte - array.length;
-    if (diff < 0) failProcess(`You can't specify this byte size.`);
+    if (diff < 0)
+      failProcess(
+        `You can't specify this byte size. ${bytes(
+          specifiedByte
+        )} is too small.`
+      );
     for (let i = 0; i < diff; i += 1) {
       array.push(0);
     }
@@ -83,8 +98,16 @@ function outputImageFile(buf) {
   console.log('processing...');
   const {size, byte} = program;
   switch (true) {
-    case !!(size && byte):
+    case !!(size && byte): {
+      const specifiedByte = bytes(byte);
+      validateByteInputValue(specifiedByte);
+      generateSpecifiedSizeBuffer(...getSpecifySize(program.size), buf => {
+        generateSpecifiedByteBuffer(specifiedByte, buf, byteAdjustedBuf => {
+          outputImageFile(byteAdjustedBuf);
+        });
+      });
       break;
+    }
     case !!size:
       generateSpecifiedSizeBuffer(...getSpecifySize(program.size), buf => {
         outputImageFile(buf);
@@ -92,15 +115,8 @@ function outputImageFile(buf) {
       break;
     case !!byte: {
       const specifiedByte = bytes(byte);
-      if (!isFinite(specifiedByte)) {
-        failProcess('Invalid input value. Format is *b or *kb or *mb');
-      }
-      if (specifiedByte > MAX_LIMIT_BYTE_SIZE) {
-        failProcess(
-          'The input value is too large. The maximum value is 50 MB.'
-        );
-      }
-      generateSpecifiedByteBuffer(specifiedByte, buf => {
+      validateByteInputValue(specifiedByte);
+      generateSpecifiedByteBuffer(specifiedByte, null, buf => {
         outputImageFile(buf);
       });
       break;
