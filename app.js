@@ -71,7 +71,7 @@ function generateSpecifiedSizeBuffer(width, height, callback) {
 
 function validateByteInputValue(specifiedByte) {
   if (!isFinite(specifiedByte)) {
-    failProcess('Invalid input value. Format is *b or *kb or *mb');
+    failProcess('Invalid input value. Byte specify format is *b or *kb or *mb');
   }
   if (specifiedByte > MAX_LIMIT_BYTE_SIZE) {
     failProcess('The input value is too large. The maximum value is 50 MB.');
