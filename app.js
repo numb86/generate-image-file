@@ -7,6 +7,10 @@ const MAX_LIMIT_BYTE_SIZE = 52428800;
 
 const DEFAULT_WIDTH = 200;
 const DEFAULT_HEIGHT = 200;
+const MINIMUM_WIDTH = 1;
+const MINIMUM_HEIGHT = 1;
+
+const FILL_COLOR = '#87CEFA';
 
 // サイズのデリミタとして使える文字列 優先度順に並んでいる
 const DELIMITER_LIST = [
@@ -21,6 +25,7 @@ program
     '-b, --byte <byte size>',
     'Specify file size. Format is *b or *kb or *mb'
   )
+  .option('-f, --fill', 'fill image')
   .parse(process.argv);
 
 function failProcess(message) {
@@ -49,8 +54,15 @@ function getSpecifySize(userInputValue) {
   return [width, height];
 }
 
+function fillImage(canvas) {
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = FILL_COLOR;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
 function generateSpecifiedSizeBuffer(width, height, callback) {
   const canvas = new Canvas(width, height);
+  if (program.fill) fillImage(canvas);
   canvas.toBuffer((err, buf) => {
     if (err) throw new Error(err);
     callback(buf);
@@ -67,7 +79,8 @@ function validateByteInputValue(specifiedByte) {
 }
 
 function generateSpecifiedByteBuffer(specifiedByte, argBuf, callback) {
-  const canvas = new Canvas(1, 1);
+  const canvas = new Canvas(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+  if (program.fill) fillImage(canvas);
   canvas.toBuffer((err, buf) => {
     if (err) throw new Error(err);
     const baseBuf = argBuf || buf;
