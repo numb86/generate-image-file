@@ -19,7 +19,7 @@ const DELIMITER_LIST = [
 ];
 
 program
-  .version('0.0.0')
+  .version('0.1.0')
   .option('-s, --size <width,height>', 'Specify width * height')
   .option(
     '-b, --byte <byte size>',
