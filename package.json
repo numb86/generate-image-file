@@ -4,7 +4,6 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha '__tests__/*.test.js'",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix"
   },
