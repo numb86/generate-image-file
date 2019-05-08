@@ -7,10 +7,14 @@
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix"
   },
-  "author": "",
+  "author": "numb_86",
   "license": "MIT",
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url": "https://github.com/numb86/generate-image-file.git"
+  },
+  "engines": {
+    "node": ">=10.9.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
