@@ -61,7 +61,7 @@ function fillImage(canvas) {
 }
 
 function generateSpecifiedSizeBuffer(width, height, callback) {
-  const canvas = new Canvas(width, height);
+  const canvas = new Canvas.Canvas(width, height);
   if (program.fill) fillImage(canvas);
   canvas.toBuffer((err, buf) => {
     if (err) throw new Error(err);
@@ -79,7 +79,7 @@ function validateByteInputValue(specifiedByte) {
 }
 
 function generateSpecifiedByteBuffer(specifiedByte, argBuf, callback) {
-  const canvas = new Canvas(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+  const canvas = new Canvas.Canvas(MINIMUM_WIDTH, MINIMUM_HEIGHT);
   if (program.fill) fillImage(canvas);
   canvas.toBuffer((err, buf) => {
     if (err) throw new Error(err);
