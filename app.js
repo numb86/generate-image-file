@@ -48,7 +48,9 @@ function getSpecifySize(userInputValue) {
   let [width, height] = userInputValue.split(delimiter);
   width = +width;
   height = +height;
+  /* eslint-disable no-restricted-globals */
   if (!isFinite(width) || width === 0 || !isFinite(height) || height === 0) {
+    /* eslint-enable no-restricted-globals */
     failProcess('You should specify px size. --size <width,height>');
   }
   return [width, height];
@@ -70,7 +72,9 @@ function generateSpecifiedSizeBuffer(width, height, callback) {
 }
 
 function validateByteInputValue(specifiedByte) {
+  /* eslint-disable no-restricted-globals */
   if (!isFinite(specifiedByte)) {
+    /* eslint-enable no-restricted-globals */
     failProcess('Invalid input value. Byte specify format is *b or *kb or *mb');
   }
   if (specifiedByte > MAX_LIMIT_BYTE_SIZE) {
